@@ -11,8 +11,8 @@ using namespace std;
 int n, k;
 vector<vector<int>> G_etalon;
 vector<vector<int>> G;
-string path = R"(C:\Users\S3\CLionProjects\order-statistic\source\RM_16_11_4.gen)";
-//string path = R"(C:\Users\S3\CLionProjects\order-statistic\source\bch_32_21_6.gen)";
+//string path = R"(C:\Users\S3\CLionProjects\order-statistic\source\RM_16_11_4.gen)";
+string path = R"(C:\Users\S3\CLionProjects\order-statistic\source\bch_32_21_6.gen)";
 
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
@@ -174,7 +174,7 @@ void gauss(vector<int> &permutation) {
 }
 
 
-vector<int> order_statistic(int t, vector<int>& signs, vector<int>& permutation) {
+vector<int> order_statistic(int t, vector<int>& signs, vector<int>& permutation, vector<double>& reliability) {
     vector<int> y(k);
     for (int i = 0; i < k; ++i) {
         y[i] = (signs[permutation[i]] + 1) / 2;
@@ -190,15 +190,16 @@ vector<int> order_statistic(int t, vector<int>& signs, vector<int>& permutation)
             }
 
             vector<int> result = matrixMul(withError);
+            vector<int> checker(n);
             for (int j = 0; j < n; ++j) {
-                result[j] = 2 * result[j] - 1;
+                checker[j] = (result[j] + ((signs[permutation[j]] + 1) / 2)) % 2;
             }
-
             long double mu = 0;
             for (int j = 0; j < n; ++j) {
-                mu += (result[j] - signs[permutation[j]]) * (result[j] - signs[permutation[j]]);
+                if (checker[j] == 1) {
+                    mu += reliability[permutation[j]];
+                }
             }
-            mu = sqrt(mu);
             if (mu < mu_min) {
                 mu_min = mu;
                 ans = result;
@@ -212,7 +213,7 @@ int main() {
     getG();
     for (double Eb = 5.0; Eb < 6.0; Eb += 0.1) {
         double correct = 0;
-        double all = 10000;
+        double all = 6000;
         for(int tries = 0; tries < all; tries++){
             G = G_etalon;
             vector<int> random_codeword = get_random_codeword();
@@ -222,7 +223,7 @@ int main() {
             vector<int> permutation = get_permutation(reliability);
             permuteG(permutation);
             gauss(permutation);
-            vector<int> result = order_statistic(2, signs, permutation);
+            vector<int> result = order_statistic(3, signs, permutation, reliability);
             for (int i = 0; i < n; ++i) {
                 result[i] = (result[i] + 1) / 2;
             }
