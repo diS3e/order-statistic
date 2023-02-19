@@ -134,7 +134,7 @@ void sumLines(int to, int from) {
     }
 }
 
-void gauss(vector<int> &permutatin) {
+void gauss(vector<int> &permutation) {
     for (int i = 0; i < k; ++i) {
         if (G[i][i] == 0) {
             int j;
@@ -153,7 +153,7 @@ void gauss(vector<int> &permutatin) {
                     }
                 }
                 swap(G[i], G[l]);
-                swap(permutatin[i], permutatin[l]);
+                swap(permutation[i], permutation[l]);
             }
         }
 
@@ -202,7 +202,6 @@ vector<int> order_statistic(int t, vector<int>& signs, vector<int>& permutation)
             if (mu < mu_min) {
                 mu_min = mu;
                 ans = result;
-
             }
         }
     }
@@ -211,13 +210,13 @@ vector<int> order_statistic(int t, vector<int>& signs, vector<int>& permutation)
 
 int main() {
     getG();
-    for (double Eb = 3.0; Eb < 6.0; Eb += 0.1) {
+    for (double Eb = 5.0; Eb < 6.0; Eb += 0.1) {
         double correct = 0;
-        double all = 3000;
+        double all = 10000;
         for(int tries = 0; tries < all; tries++){
             G = G_etalon;
             vector<int> random_codeword = get_random_codeword();
-            vector<double> corrupt = get_corrupt(random_codeword, Eb);
+            vector<double> corrupt = get_corrupt(random_codeword, pow(10.0, (Eb / 10)));
             vector<int> signs = get_signs(corrupt);
             vector<double> reliability = get_reliability(corrupt);
             vector<int> permutation = get_permutation(reliability);
@@ -228,17 +227,9 @@ int main() {
                 result[i] = (result[i] + 1) / 2;
             }
             bool flag = true;
-            int count_true = 0;
-            int count_res = 0;
             for (int i = 0; i < n; ++i) {
                 if (result[i] != random_codeword[permutation[i]]) {
                     flag = false;
-                }
-                if (result[i] == 1) {
-                    count_res++;
-                }
-                if (random_codeword[i] == 1) {
-                    count_true++;
                 }
             }
 
