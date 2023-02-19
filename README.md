@@ -1,10 +1,11 @@
 # order-statistic
 График для кода (16; 11):
-![(16;11)](https://user-images.githubusercontent.com/65682478/219898984-11d4d118-4099-4955-8580-34046c76c732.png)
+![1 (1)](https://user-images.githubusercontent.com/65682478/219954479-89886978-7be0-477c-9653-a8a9ae0a5a9a.png)
+
 
 График для кода (32; 21):
-![(32;21)](https://user-images.githubusercontent.com/65682478/219899011-ebb01e3d-2206-4ea5-ad39-6cac30c4f9e6.png)
+![2 (1)](https://user-images.githubusercontent.com/65682478/219954487-b2b9e88c-fee1-42c5-a2f5-c729a098ba63.png)
+
 
 Совместный график:
-
-![Совместный](https://user-images.githubusercontent.com/65682478/219899021-7f8b307f-fd26-494a-94f5-84e55926ba5c.png)
+![3 (1)](https://user-images.githubusercontent.com/65682478/219954493-02e01cdd-274d-49cb-84c8-0207eb210263.png)
